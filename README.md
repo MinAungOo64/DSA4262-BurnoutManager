@@ -14,7 +14,7 @@ This repository contains an end-to-end data science pipeline designed to predict
 ### Feature Correlation
 We began by analyzing the linear relationships between all available features in the dataset to identify multi-collinearity and primary drivers of employee distress.
 
-[Insert Figure: Correlation Matrix]
+<img width="1144" height="1013" alt="image" src="https://github.com/user-attachments/assets/ecfc4b8c-5d1d-4028-8fa0-9ef993e6f3a0" />
 
 ### Predicting Stress vs. Burnout
 A key design choice in this project is the decision to predict `stress_level` instead of `burnout_risk`. We define **burnout** as the result of prolonged and excessive stress rather than a single point-in-time state. By predicting the immediate `stress_level`, we can apply downstream logic (such as moving averages) to identify when high stress transitions into a chronic burnout state.
@@ -22,7 +22,8 @@ A key design choice in this project is the decision to predict `stress_level` in
 ### Feature Selection & Ablation Study
 To ensure model efficiency and interpretability, we performed an ablation test to observe the drop in performance when specific variables were removed.
 
-[Insert Figure: Ablation Test Performance Drop]
+<img width="1189" height="590" alt="image" src="https://github.com/user-attachments/assets/199f08c2-24d3-4a1a-865c-645f9a9726ac" />
+
 
 We can see that the model’s performance drastically drops when features like `workload_score`, `satisfaction_score`, `career_progression_score`, `performance_score`, and `tenure_months` are removed. Thus, we decided to narrow down our input features to just these 5 variables.
 
@@ -39,6 +40,22 @@ We compared three state-of-the-art gradient boosting frameworks. The models were
 Since LightGBM yielded the lowest error, it was selected as the final production model.
 
 * **Final LightGBM Test RMSE:** 0.1542
+
+---
+
+## 📉 Burnout Simulation
+
+### Burnout State Matrix
+To translate raw stress data into actionable insights, we developed a **Burnout Logic Matrix**. This matrix categorizes employees based on the intersection of their acute stress (Short-Term EMA) and their chronic history (Long-Term EMA). This allows leadership to distinguish between someone having a "bad week" versus an employee reaching a critical point of exhaustion.
+
+<img width="966" height="666" alt="image" src="https://github.com/user-attachments/assets/2e5d18ed-7069-4e6c-9ce1-30c42c31a145" />
+
+
+### Dynamic Simulation with Confidence Intervals
+The simulation tracks predicted stress levels over a 120-day "User Journey." To account for statistical variance and provide a reliable risk assessment, the simulation includes a **Confidence Interval (CI)**. This visualizes the range of likely stress outcomes, ensuring that interventions are triggered based on high-confidence data points rather than outliers.
+
+<img width="1766" height="631" alt="image" src="https://github.com/user-attachments/assets/ed7f77cb-6650-49fd-ab61-a393b1dc86de" />
+
 
 ---
 
